@@ -36,7 +36,7 @@ def remove(path):
         raise ValueError("file {} is not a file or dir.".format(path))
 
 def cleanUp(orderId):
-    remove(getOrderFolder(orderId))
+    remove(orderId)
         
 def zipFiles(orderId,collectionName):
     # specifying the zip file name
@@ -70,7 +70,7 @@ def startGenerateOrder(request, startIndex,endIndex):
     zipFilesAndUpload(orderId, collectionName)
     
     
-    # cleanUp(orderId)
+    cleanUp(orderId)
     return {'id':orderId}
     
     
