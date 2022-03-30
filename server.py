@@ -8,7 +8,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
 # check header for auth
-@app.route('/generateOrder', methods=['GET','POST'])
+@app.route('/generateOrder', methods=['GET', 'POST'])
 def fulfillOrder():
     if request.content_type != 'application/json':
 
@@ -20,8 +20,7 @@ def fulfillOrder():
         endIndex = 8
         result = startGenerateOrder(data, startIndex, endIndex)
         return result
-        
-        
-if __name__ == '__main__':
-    app.run(host="localhost", port=8000, )
 
+
+if __name__ == '__main__':
+    app.run(host="https://generator-123nft.herokuapp.com/", port=8000, )
