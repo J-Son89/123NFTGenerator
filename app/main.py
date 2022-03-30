@@ -1,8 +1,10 @@
 import requests
 from flask import Flask, request
 from generateOrder import startGenerateOrder
-app = Flask(__name__)
+from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app, resources={r"/generateOrder∑/*": {"origins": "*"}})
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
