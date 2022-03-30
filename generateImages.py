@@ -8,7 +8,7 @@ from s3 import upload_with_default_configuration
 bucket = '123nft'
 
 def getPathForS3(orderId, fileName):
-    return orderId + "/output/" + fileName
+    return orderId + "/order/images/" + fileName
 
 def startGenerateImages(metadata, imageUrlsMap, projectLayersDepth, orderId):
     addFolder(getOutputImagesFolder(orderId))

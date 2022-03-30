@@ -29,27 +29,26 @@ def downloadAll(imageUrlsMap, rootName, layerNames, orderId):
     addFolder(getImagesFolder(orderId))
     for layer in layerNames:
         for imageName in imageUrlsMap[rootName][layer]:
-            print('===')
-            print(imageName)
             
             download(imageUrlsMap[rootName][layer][imageName], imageName, orderId)
 
 def getImagesFolder(orderId):
-    return "local-"  + orderId
+    return  orderId + os.sep + "local" 
 
 def getImagesPath(filename,orderId):
     return getImagesFolder(orderId) +os.sep+ filename
 
+def getOrderFolder(orderId):
+    return  orderId + os.sep + "order"
+    
 def getOutputImagesFolder(orderId):
-    return "output-"  + orderId
-
+    return getOrderFolder(orderId) + os.sep + "images"
 
 def getOutputImagesPath(filename,orderId):
     return getOutputImagesFolder(orderId) +os.sep+ filename
 
 def getOutputMetadataFolder(orderId):
-    return "metadata-"  + orderId
-
+    return getOrderFolder(orderId) + os.sep + "metadata"
 
 def getOutputMetadataPath(filename,orderId):
     return getOutputMetadataFolder(orderId) +os.sep+ filename
