@@ -24,5 +24,5 @@ def fulfillOrder():
         return result
 
 
-if __name__ == '__main__':
-    app.run(host="https://generator-123nft.herokuapp.com/", port=8000, )
+# if __name__ == '__main__':
+    # app.run(host="https://generator-123nft.herokuapp.com/", port=8000, )
