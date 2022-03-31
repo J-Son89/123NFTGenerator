@@ -3,7 +3,7 @@ from app.generateOrder import startGenerateOrder
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/generateOrder∑/*": {"origins": "*"}})
+CORS(app, resources={r"/generateOrder/*": {"origins": "*"}})
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
