@@ -1,7 +1,7 @@
-from generateImages import startGenerateImages
-from generateMetadata import startGenerateMetadata
-from downloadImages import getImagesFolder, getOutputImagesFolder, getOutputMetadataFolder,getOrderFolder
-from s3 import upload_with_default_configuration
+from app.generateImages import startGenerateImages
+from app.generateMetadata import startGenerateMetadata
+from app.downloadImages import getImagesFolder, getOutputImagesFolder, getOutputMetadataFolder,getOrderFolder
+from app.s3 import upload_with_default_configuration
 import os 
 import shutil
 from zipfile import ZipFile

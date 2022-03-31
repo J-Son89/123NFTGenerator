@@ -1,5 +1,5 @@
 from flask import Flask, request
-from generateOrder import startGenerateOrder
+from app.generateOrder import startGenerateOrder
 from flask_cors import CORS
 
 app = Flask(__name__)

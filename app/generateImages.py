@@ -1,9 +1,9 @@
 import imageio
 import numpy as np
 from pathlib import Path
-from downloadImages import downloadAll,getImagesPath,getOutputImagesPath, addFolder,getOutputImagesFolder
+from app.downloadImages import downloadAll,getImagesPath,getOutputImagesPath, addFolder,getOutputImagesFolder
 import os
-from s3 import upload_with_default_configuration
+from app.s3 import upload_with_default_configuration
 
 bucket = '123nft'
 
