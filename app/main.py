@@ -3,7 +3,8 @@ from app.generateOrder import startGenerateOrder
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/generateOrder/*": {"origins": "*"}})
+CORS(app, resources={
+     r"/generateOrder/*": {"origins": "https://backend123nft.herokuapp.com"}})
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -23,4 +24,3 @@ def fulfillOrder():
         endIndex = len(metadata)
         result = startGenerateOrder(data, startIndex, endIndex)
         return result
-
