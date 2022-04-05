@@ -17,7 +17,7 @@ def fulfillOrder():
         return
     if request.method == 'POST':
         data = request.json
-        metadata = request['data']['orderData']['metadata']
+        metadata = data['data']['orderData']['metadata']
 
         startIndex = 0
         endIndex = len(metadata)
