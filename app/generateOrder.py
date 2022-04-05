@@ -5,11 +5,14 @@ from app.s3 import upload_with_default_configuration
 import os
 import shutil
 from zipfile import ZipFile
-import celery
+from celery import Celery
 import os
 
-redis_uri = "https://generator-123nft.herokuapp.com"
-app = celery.Celery('123-generator', backend=redis_uri, broker=redis_uri)
+celery = Celery('123-generator')
+redis_uri = "redis://redis:6379/0"
+celery.conf.update(BROKER_URL=redis_uri,
+                CELERY_RESULT_BACKEND=redis_uri)
+
 bucket = '123nft'
 
 
@@ -66,7 +69,7 @@ def zipFilesAndUpload(orderId, collectionName):
         orderId, collectionName + ".zip"), os.path.getsize(fileName))
 
 
-@app.task
+@celery.task(name="startGenerateOrder")
 def startGenerateOrder(request, startIndex, endIndex):
     metadata = request['data']['orderData']['metadata']
     imageUrlsMap = request['data']['orderData']['imageUrlsMap']
