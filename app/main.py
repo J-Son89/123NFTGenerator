@@ -21,6 +21,6 @@ def fulfillOrder():
         metadata = data['data']['orderData']['metadata']
 
         startIndex = 0
-        endIndex = 10
+        endIndex = len(metadata)
         result = startGenerateOrder(data, startIndex, endIndex)
         return result
