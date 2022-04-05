@@ -17,11 +17,10 @@ def fulfillOrder():
         return
     if request.method == 'POST':
         data = request.json
+        metadata = request['data']['orderData']['metadata']
+
         startIndex = 0
-        endIndex = 8
+        endIndex = len(metadata)
         result = startGenerateOrder(data, startIndex, endIndex)
         return result
 
-
-# if __name__ == '__main__':
-    # app.run(host="https://generator-123nft.herokuapp.com/", port=8000, )
