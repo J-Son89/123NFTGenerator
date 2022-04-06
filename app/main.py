@@ -24,9 +24,9 @@ def fulfillOrder():
 
         startIndex = 0
         endIndex = len(metadata)
-        thread = Thread(target=startGenerateOrder, kwargs={
-                        'data': data, 'startIndex': startIndex, 'endIndex': endIndex})
+        thread = Thread(target=startGenerateOrder,
+                        args=(data, startIndex, endIndex))
         thread.start()
-        orderId = request['data']['_id']
+        orderId = data['data']['_id']
 
         return {'id': orderId}
