@@ -118,4 +118,4 @@ def batchJobs(data, totalImages):
     orderId = data['data']['_id']
 
     requests.post('https://backend123nft.herokuapp.com/orderComplete',
-                  data={'orderID': orderId})
+                  json={'orderID': orderId})
