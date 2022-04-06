@@ -110,7 +110,7 @@ def batchJobs(data, totalImages):
         process.join()
 
     collectionName = data['data']['orderData']['collectionDetails']['collectionName']
-    orderId = request['data']['_id']
+    orderId = data['data']['_id']
 
     zipFilesAndUpload(orderId, collectionName)
 
