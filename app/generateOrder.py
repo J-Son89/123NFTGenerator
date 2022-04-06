@@ -5,6 +5,8 @@ from app.s3 import upload_with_default_configuration
 import os
 import shutil
 from zipfile import ZipFile
+import requests
+
 
 bucket = '123nft'
 
@@ -80,4 +82,6 @@ def startGenerateOrder(request, startIndex, endIndex):
     zipFilesAndUpload(orderId, collectionName)
 
     cleanUp(orderId)
-    return {'id': orderId}
+    requests.post('https://backend123nft.herokuapp.com/orderComplete',
+                  data={'orderID': orderId})
+    return orderId

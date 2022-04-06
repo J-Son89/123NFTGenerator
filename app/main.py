@@ -1,6 +1,8 @@
 from flask import Flask, request
 from app.generateOrder import startGenerateOrder
 from flask_cors import CORS
+from threading import Thread
+
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -22,5 +24,9 @@ def fulfillOrder():
 
         startIndex = 0
         endIndex = len(metadata)
-        result = startGenerateOrder(data, startIndex, endIndex)
-        return result
+        thread = Thread(target=startGenerateOrder, kwargs={
+                        'data': data, 'startIndex': startIndex, 'endIndex': endIndex})
+        thread.start()
+        orderId = request['data']['_id']
+
+        return {'id': orderId}
