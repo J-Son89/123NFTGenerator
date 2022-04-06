@@ -110,11 +110,12 @@ def batchJobs(data, totalImages):
         process.join()
 
     collectionName = data['data']['orderData']['collectionDetails']['collectionName']
-    orderId = data['data']['_id']
 
     zipFilesAndUpload(orderId, collectionName)
 
     cleanUp(orderId)
     """
+    orderId = data['data']['_id']
+
     requests.post('https://backend123nft.herokuapp.com/orderComplete',
                   data={'orderID': orderId})
