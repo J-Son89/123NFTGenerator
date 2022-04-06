@@ -94,7 +94,7 @@ def zipFilesAndUpload(orderId, collectionName):
 
 def batchJobs(data, totalImages):
     threads = []
-
+    """
     for i in range(4):
         startIndex = int(i * (totalImages/4))
         endIndex = int(startIndex + (totalImages/4))
@@ -115,5 +115,6 @@ def batchJobs(data, totalImages):
     zipFilesAndUpload(orderId, collectionName)
 
     cleanUp(orderId)
+    """
     requests.post('https://backend123nft.herokuapp.com/orderComplete',
                   data={'orderID': orderId})
