@@ -8,7 +8,6 @@ def getPathForS3(orderId, fileName):
     return orderId + "/order/metadata/" + fileName
 
 def startGenerateMetadata(metadata, metadataFormat,orderId):
-    addFolder(getOutputMetadataFolder(orderId))
     
     if(metadataFormat == 'Ethereum'):
         generateJsonMetadata(metadata,orderId)
@@ -43,3 +42,4 @@ def generateJsonMetadata(metadata, orderId):
         f.close()
           
         upload_with_default_configuration(outputMetadataFilePath,bucket,  getPathForS3(orderId, fileName),os.path.getsize(outputMetadataFilePath) )
+        

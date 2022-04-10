@@ -5,7 +5,7 @@ from threading import Thread
 import shutil
 from zipfile import ZipFile
 import requests
-from app.downloadImages import getImagesFolder, getOutputImagesFolder, getOutputMetadataFolder, getOrderFolder
+from app.downloadImages import getImagesFolder, getOutputImagesFolder, getOutputMetadataFolder, getOrderFolder, addFolder, getOutputMetadataFolder
 from app.s3 import upload_with_default_configuration
 import os
 
@@ -93,7 +93,13 @@ def zipFilesAndUpload(orderId, collectionName):
 
 
 def batchJobs(data, totalImages):
+    orderId = data['data']['_id']
+
+    addFolder(getOutputImagesFolder(orderId))
+    addFolder(getOutputMetadataFolder(orderId))
+
     threads = []
+
     for i in range(4):
         startIndex = int(i * (totalImages/4))
         endIndex = int(startIndex + (totalImages/4))
@@ -109,7 +115,6 @@ def batchJobs(data, totalImages):
         process.join()
 
     collectionName = data['data']['orderData']['collectionDetails']['collectionName']
-    orderId = data['data']['_id']
 
     zipFilesAndUpload(orderId, collectionName)
 

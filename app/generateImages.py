@@ -13,7 +13,6 @@ def getPathForS3(orderId, fileName):
 
 
 def startGenerateImages(metadata, imageUrlsMap, projectLayersDepth, orderId):
-    addFolder(getOutputImagesFolder(orderId))
 
     rootName = list(imageUrlsMap.keys())[0]
     layerNames = imageUrlsMap[rootName].keys()
