@@ -34,7 +34,6 @@ def startGenerateImages(metadata, imageUrlsMap, projectLayersDepth, orderId):
         outputImagePath = getOutputImagesPath(fileName, orderId)
         upload_with_default_configuration(outputImagePath, bucket,  getPathForS3(
             orderId, fileName), os.path.getsize(outputImagePath))
-        os.remove(outputImagePath)
     return
 
 
