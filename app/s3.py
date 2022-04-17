@@ -6,16 +6,16 @@ Created on Mon Mar 14 12:09:49 2022
 @author: jamiecaprani
 """
 import sys
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import threading
 
-import boto3
-from boto3.s3.transfer import TransferConfig
+# import boto3
+# from boto3.s3.transfer import TransferConfig
 
-load_dotenv()
-
+# load_dotenv()
+boto3={ }
 MB = 1024 * 1024
-s3 = boto3.resource('s3')
+s3 = 's3' # boto3.resource('s3')
 
 class TransferCallback:
     """

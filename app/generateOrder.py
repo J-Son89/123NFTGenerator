@@ -11,7 +11,7 @@ def startGenerateOrder(request, startIndex, endIndex):
     orderId = request['data']['_id']
 
     metadataFormat = request['data']['orderData']['orderDetails']['metadata']['value']
-
+    
     startGenerateImages(metadata[startIndex:endIndex],
                         imageUrlsMap, projectLayersDepth, orderId)
 

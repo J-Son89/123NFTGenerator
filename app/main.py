@@ -1,19 +1,21 @@
 from flask import Flask, request
 from app.generateOrder import startGenerateOrder
-from flask_cors import CORS
+from app.generateImages import makeGenerateImages
+# from flask_cors import CORS
+# CORS=""
 from threading import Thread
 import shutil
 from zipfile import ZipFile
 import requests
-from app.downloadImages import getImagesFolder, getOutputImagesFolder, getOutputMetadataFolder, getOrderFolder, addFolder, getOutputMetadataFolder
+from app.downloadImages import getBaseCombinationsOutputImagesFolder,getImagesFolder, getOutputImagesFolder, getOutputMetadataFolder, getOrderFolder, addFolder, getOutputMetadataFolder
 from app.s3 import upload_with_default_configuration
 import os
 
 bucket = '123nft'
 
 app = Flask(__name__)
-CORS(app, resources={
-     r"/generateOrder/*": {"origins": "https://backend123nft.herokuapp.com"}})
+# CORS(app, resources={
+#      r"/generateOrder/*": {"origins": "https://backend123nft.herokuapp.com"}})
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -92,11 +94,60 @@ def zipFilesAndUpload(orderId, collectionName):
         orderId, collectionName + ".zip"), os.path.getsize(fileName))
 
 
+combineBaseImages = makeGenerateImages(getImagesFolder, getBaseCombinationsOutputImagesFolder)
+
+def makeMetadataForTwoLayers(layer1Name,layer2Name, layer1Images,layer2Images):
+    metadata =[]
+    
+
+    for img1 in layer1Images:
+        for img2 in layer2Images:
+            metadata.append({
+                [layer1Name]:img1,
+                [layer2Name]:img2,
+            })
+    return metadata
+
+def createBaseImages(projectStructure, rootName, imageUrlsMap, projectLayersDepth, orderId):
+    keysLength = len(projectLayersDepth.keys())
+    rangeTotal = keysLength/2 if keysLength % 2 == 0 else (keysLength/2)-1
+    for i in range(rangeTotal):
+        
+        layer1Name = projectLayersDepth[i]
+        layer2Name = projectLayersDepth[i+1]
+        layer1Images = projectStructure[rootName][layer1Name]
+        layer2Images = projectStructure[rootName][layer2Name]
+
+        metadata = makeMetadataForTwoLayers(layer1Name,layer2Name, layer1Images,layer2Images)
+
+        filteredImageUrlsMap = {k: v for k, v in imageUrlsMap if k==layer1Name or k==layer2Name }
+        combineBaseImages(metadata,filteredImageUrlsMap, projectLayersDepth,orderId)
+
+
+
+
 def batchJobs(data, totalImages):
     orderId = data['data']['_id']
+    imageUrlsMap = data['data']['orderData']['imageUrlsMap']
+    collectionName = data['data']['orderData']['collectionDetails']['collectionName']
+    projectLayersDepth = data['data']['orderData']['projectLayersDepth']
+    projectStructure = data['data']['orderData']['projectStructure']
 
+    sortedLayerNames = sorted(
+        layerNames, key=lambda layerName: projectLayersDepth[layerName], reverse=True)
+
+    cleanUp(orderId)
+    
+    rootName = list(imageUrlsMap.keys())[0]
+    layerNames = imageUrlsMap[rootName].keys()
+    downloadAll(imageUrlsMap, rootName, layerNames, orderId)
+
+
+    addFolder(getBaseCombinationsOutputImagesFolder(orderId))
     addFolder(getOutputImagesFolder(orderId))
     addFolder(getOutputMetadataFolder(orderId))
+
+    combineBaseImages()
 
     threads = []
 
@@ -114,7 +165,6 @@ def batchJobs(data, totalImages):
     for process in threads:
         process.join()
 
-    collectionName = data['data']['orderData']['collectionDetails']['collectionName']
 
     zipFilesAndUpload(orderId, collectionName)
 

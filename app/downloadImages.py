@@ -29,7 +29,6 @@ def downloadAll(imageUrlsMap, rootName, layerNames, orderId):
     addFolder(getImagesFolder(orderId))
     for layer in layerNames:
         for imageName in imageUrlsMap[rootName][layer]:
-            
             download(imageUrlsMap[rootName][layer][imageName], imageName, orderId)
 
 def getImagesFolder(orderId):
@@ -52,3 +51,9 @@ def getOutputMetadataFolder(orderId):
 
 def getOutputMetadataPath(filename,orderId):
     return getOutputMetadataFolder(orderId) +os.sep+ filename
+
+
+# base combinations folder
+def getBaseCombinationsOutputImagesFolder(orderId):
+    return  orderId + os.sep + "baseCombinations"
+    
