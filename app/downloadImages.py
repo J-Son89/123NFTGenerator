@@ -9,7 +9,7 @@ def addFolder(folder):
 
 ## Set up the image URL and filename
 
-def download(imageUrl,filename, orderId):
+def download(imageUrl,filename,layer, orderId):
     
     # Open the url image, set stream to True, this will return the stream content.
     r = requests.get(imageUrl, stream = True)
@@ -20,7 +20,7 @@ def download(imageUrl,filename, orderId):
         r.raw.decode_content = True
     
     # Open a local file with wb ( write binary ) permission.
-    with open( getImagesPath(filename,orderId),'wb') as f:
+    with open( getImagesPath(layer + '-' + filename,orderId),'wb') as f:
         shutil.copyfileobj(r.raw, f)
         
     return
@@ -29,7 +29,7 @@ def downloadAll(imageUrlsMap, rootName, layerNames, orderId):
     addFolder(getImagesFolder(orderId))
     for layer in layerNames:
         for imageName in imageUrlsMap[rootName][layer]:
-            download(imageUrlsMap[rootName][layer][imageName], imageName, orderId)
+            download(imageUrlsMap[rootName][layer][imageName], imageName,layer, orderId)
 
 def getImagesFolder(orderId):
     return  orderId + os.sep + "local" 
@@ -56,4 +56,7 @@ def getOutputMetadataPath(filename,orderId):
 # base combinations folder
 def getBaseCombinationsOutputImagesFolder(orderId):
     return  orderId + os.sep + "baseCombinations"
+
+def getBaseCombinationsOutputImagesPath(filename,orderId):
+    return getBaseCombinationsOutputImagesFolder(orderId) +os.sep+ filename
     
